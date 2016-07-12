@@ -1,13 +1,29 @@
 <component name="ArtifactManager">
   <artifact type="exploded-war" name="log-monitor:war exploded">
-    <output-path>$PROJECT_DIR$/out/artifacts/log_monitor_war_exploded</output-path>
+    <output-path>$PROJECT_DIR$/target/log-monitor-1.0-SNAPSHOT</output-path>
     <root id="root">
-      <element id="javaee-facet-resources" facet="log-monitor/web/Web" />
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
           <element id="module-output" name="log-monitor" />
         </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="Maven: org.springframework:spring-context:3.1.3.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-aop:4.2.7.RELEASE" />
+          <element id="library" level="project" name="Maven: aopalliance:aopalliance:1.0" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-beans:4.2.7.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-core:4.2.7.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-expression:4.2.7.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-asm:3.1.3.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-webmvc:3.1.3.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-context-support:4.2.7.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-web:4.2.7.RELEASE" />
+          <element id="library" level="project" name="Maven: javax.servlet:jstl:1.2" />
+        </element>
       </element>
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/target/log-monitor-1.0-SNAPSHOT/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="javaee-facet-resources" facet="log-monitor/web/Web" />
     </root>
   </artifact>
 </component>
