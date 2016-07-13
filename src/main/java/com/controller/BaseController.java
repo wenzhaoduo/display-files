@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class BaseController {
-    private static int counter=0;
+    private int counter=0;
     private static final String VIEW_INDEX="index";
     private static final Logger logger= LoggerFactory.getLogger(BaseController.class);
 
@@ -18,7 +18,7 @@ public class BaseController {
     public String welcome(ModelMap model){
         model.addAttribute("message","Welcome");
         model.addAttribute("counter",++counter);
-        logger.debug("[Welcome counter :{}",counter);
+//        logger.debug("[Welcome counter :{}",counter);
         return VIEW_INDEX;//返回index.jsp
     }
 
