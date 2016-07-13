@@ -51,12 +51,12 @@
          <version>${spring.version}</version>
      </dependency>
 
-     <!-- jstl -->
-     <dependency>
-         <groupId>jstl</groupId>
-         <artifactId>jstl</artifactId>
-         <version>${jstl.version}</version>
-     </dependency>
+     <!--&lt;!&ndash; jstl &ndash;&gt;-->
+     <!--<dependency>-->
+         <!--<groupId>jstl</groupId>-->
+         <!--<artifactId>jstl</artifactId>-->
+         <!--<version>${jstl.version}</version>-->
+     <!--</dependency>-->
 
    </dependencies>
 

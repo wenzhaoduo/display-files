@@ -22,11 +22,11 @@ public class BaseController {
         return VIEW_INDEX;//返回index.jsp
     }
 
-    @RequestMapping(value = "/{name}" ,method = RequestMethod.GET)
-    public String welcome(@PathVariable String name , ModelMap model){
-        model.addAttribute("message","Welcome "+name);
-        model.addAttribute("counter",++counter);
-        logger.debug("[Welcome counter :{}",counter);
+    @RequestMapping(value = "/hello" ,method = RequestMethod.GET)
+    public String welcome(@PathVariable  String name , ModelMap model){
+        model.addAttribute("message", "Welcome " + name);
+        model.addAttribute("counter", ++counter);
+        logger.debug("[Welcome counter :{}", counter);
         return VIEW_INDEX;//返回index.jsp
     }
 }
