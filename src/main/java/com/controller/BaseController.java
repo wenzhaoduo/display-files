@@ -26,13 +26,14 @@ public class BaseController {
      * @return
      */
 
-//    @ResponseBody
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String viewConsoleLog(@RequestParam(required = false, defaultValue = "/home/mi/log/boss-operations.log") String logFileName,
                                  @RequestParam(required = false, defaultValue = "1") int curPage,
-                                 @RequestParam(required = false, defaultValue = "50") int row,
+                                 @RequestParam(required = false, defaultValue = "500") int row,
+                                 @RequestParam(required = false, defaultValue = "-1") long pos,
                                  @RequestParam(required = false, defaultValue = "UTF-8") String charSet,
                                  Model model) {
+        System.out.println(logFileName + "\t" + curPage + "\t" + row + "\t" + pos);
         List<String> list = new ArrayList<String>();
         RandomAccessFile logFile = null;
         try {
@@ -41,23 +42,25 @@ public class BaseController {
             //计算要读取的行号，从末行开始读取，所以末行行号为0
             int startRow = (curPage - 1) * row;
             int endRow = curPage * row - 1;
-//            System.out.println(startRow + "\t" + endRow);
             //当前行号
             int curRow = 0;
             //获取文件大小
             long len = logFile.length();
+            System.out.println(startRow + "\t" + endRow + "\t" + curRow + "\t" + len);
             //读取行
             String line = null;
             if(len > 0) {
+                System.out.println("reading from log.");
                 //定位至文件尾部
-                long p = len;
-                while(p-- > 0) {
-                    logFile.seek(p);//定位指针位置
+                if (pos == -1) pos = len;
+                while(pos-- > 0) {
+                    logFile.seek(pos);//定位指针位置
                     if(curRow > endRow) { //如果已读行数达到指定行数，则不再读取
                         break;
                     }
                     if(logFile.readByte() == '\n') {
-                        if(curRow >= startRow && curRow <= endRow) {
+//                        if(curRow >= startRow && curRow <= endRow) {
+                        if(curRow < row) {
                             line = logFile.readLine();//读取到换行符，这里的换行符是上一行的换行符，所以这里永远不会打印第一行的内容
                             if (line != null && !line.equals("")) {
                                 curRow ++;
@@ -67,16 +70,21 @@ public class BaseController {
                     }
                 }
             }
+
             //读取文件首行
-            curRow++;
-            if(curRow >= startRow && curRow <= endRow) {
-                logFile.seek(0);//定位指针至文件开头
+            if (pos == 0) {
+                logFile.seek(pos);//定位指针至文件开头
                 line = logFile.readLine();//读取到换行符，这里的换行符是上一行的换行符，所以这里永远不会打印第一行的内容
-                line = (line == null) ? "" : new String(line.getBytes("ISO-8859-1"), charSet);//如果是换行符,并且在指定行号内，就读取该行；如果是空行，这打印空行
-                list.add(line);
+                if (line != null && !line.equals("")) {
+                    curRow ++;
+                    list.add(line);
+                }
             }
-            if(list.size() == 0) {  //没有读取到任何数据，表示已经加载过了所有内容
+
+            if (list.size() == 0) {  //没有读取到任何数据，表示已经加载过了所有内容
                 model.addAttribute("isOver", true);
+            } else {
+                model.addAttribute("isOver", false);
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -86,16 +94,19 @@ public class BaseController {
             model.addAttribute("msg", "读取日志文件失败: " + logFileName);
         } finally {
             try {
-                if(logFile != null) logFile.close();
+                if (logFile != null) logFile.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
 
+        System.out.println("The size of list: " + list.size());
+
         Collections.reverse(list);
         model.addAttribute("content", list);
-        model.addAttribute("curPage", curPage);
+        model.addAttribute("curPage", curPage + 1);
         model.addAttribute("row", row);
+        model.addAttribute("pos", pos);
         return "index";
     }
 }
