@@ -23,29 +23,21 @@ window.onscroll = function(){
             dataType: "json", //dataType 是指定后台返回值的类型，如果不写，则默认是text。
             contentType: "application/json; charset=utf-8",
             success:function(msg){
-                var existingDiv = document.getElementById((msg.curPage - 1).toString());
-                var newDiv = $( "<div id=" + msg.curPage + "></div>" );
-                $(existingDiv).before(newDiv);
-
-                var curDiv = document.getElementById(msg.curPage.toString());
                 curPage.innerHTML = msg.curPage;
                 pos.innerHTML = msg.pos;
                 isOver.innerHTML = msg.isOver;
-                // var ol = document.createElement("ol");
-                // curDiv.appendChild(ol);
+                
                 var str = "";
                 msg.content.forEach(function (e) {
                     str += e + "<br>";
-                    // var li = document.createElement("li");
-                    // var textNode = document.createTextNode(e);
-                    // li.appendChild(textNode);
-                    // ol.appendChild(li);
                 });
-                var textNode = document.createTextNode(str);
-                $(curDiv).append(str);
 
-                // curDiv.scrollTop = curDiv.scrollHeight;
-                // window.scrollTo(0,9999999);
+                var existingDiv = document.getElementById((msg.curPage - 1).toString());
+                var newDiv = $( "<div id=" + msg.curPage + "></div>" );
+                $(existingDiv).before(newDiv);
+                var curDiv = document.getElementById(msg.curPage.toString());
+                
+                $(curDiv).append(str);
             },
 
             error:function(msg){
