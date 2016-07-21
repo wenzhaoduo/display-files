@@ -6,6 +6,7 @@
 <html>
 
 <head>
+    <title>mmmmmmmmmmmmmmmmmm</title>
     <spring:url value="/js/load.js" var="testJS"/>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="${testJS}"></script>
@@ -20,33 +21,34 @@
         #curPage {
             display: none;
         }
-        #row {
-            display: none;
-        }
         #pos {
             display: none;
         }
         #isOver {
             display: none;
         }
+        ol {list-style: none;}
     </style>
 </head>
 
 <body>
-<%--<a name="top">顶部<a>--%>
-    <div id="top_div"><a href="#top">返回顶部</a></div>
+    <div id="top_div"><a href="#top">返回底部</a></div>
     <div id="curPage">${curPage}</div>
-    <div id="row">${row}</div>
     <div id="pos">${pos}</div>
     <div id="isOver">${isOver}</div>
-    <div id="logs">
+    <div id=${curPage}>
         <c:forEach var="loglist" items="${content}">
             ${loglist}<br>
         </c:forEach>
+        <%--<ol id="logs${curPage}">--%>
+            <%--<c:forEach var="loglist" items="${content}">--%>
+                <%--<li>${loglist}<br></li>--%>
+            <%--</c:forEach>--%>
+        <%--</ol>--%>
     </div>
 
     <script type="text/javascript">
-        var oDiv = document.getElementById('logs');
+        var oDiv = document.getElementById(${curPage});
         oDiv.scrollTop = oDiv.scrollHeight;
         window.scrollTo(0,9999999);
     </script>
