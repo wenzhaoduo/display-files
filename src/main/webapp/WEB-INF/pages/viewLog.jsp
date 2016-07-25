@@ -58,13 +58,9 @@
             </div>
         </div>
     </div>
-    <div><a href="/home/mi/log">test</a></div>
 
     <script type="text/javascript">
-        <%--var oDiv = document.getElementById(${curPage});--%>
-        <%--oDiv.scrollTop = oDiv.scrollHeight;--%>
         window.scrollTo(0, 9999999);
-        console.log (${totalLines});
     </script>
 </body>
 </html>

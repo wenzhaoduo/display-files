@@ -3,13 +3,12 @@ window.onscroll = function(){
     var top_div = document.getElementById("top_div"); //拿到top_div这个部件对象的引用
     var isOver = document.getElementById("isOver");
 
-    var docH = document.documentElement.clientHeight;//页面高度
-    var contentH = document.documentElement.scrollHeight;//内容高度
+    // var docH = document.documentElement.clientHeight;//页面高度
+    // var contentH = document.documentElement.scrollHeight;//内容高度
     var scrollTop = document.documentElement.scrollTop || document.body.scrollTop; //滚动高度
 
 
-    // if(scrollTop / contentH <= 0.1 && scrollTop / contentH > 0 && $(isOver).text() == "false") {
-    if(scrollTop / contentH == 0 && $(isOver).text() == "false") {
+    if(scrollTop == 0 && $(isOver).text() == "false") {
 
         var curPage = document.getElementById("curPage");
         var pos = document.getElementById("pos");
@@ -29,8 +28,13 @@ window.onscroll = function(){
                 isOver.innerHTML = msg.isOver;
                 
                 var str = "";
+                var totalLines = parseInt($(document.getElementById("totalLines")).text());
+                var index = 0;
+                var lines = msg.content.length;
                 msg.content.forEach(function (e) {
-                    str += e + "<br>";
+                    var curLine = totalLines - (parseInt(msg.curPage) - 1) * 500 - lines + index + 1;
+                    str += "<font color=\"red\">" + curLine + "</font> &nbsp &nbsp &nbsp" + e + "<br>";
+                    index ++;
                 });
 
                 var existingDiv = document.getElementById((msg.curPage - 1).toString());
@@ -41,8 +45,6 @@ window.onscroll = function(){
                 $(curDiv).append(str);
 
                 window.scrollTo(0,curDiv.scrollHeight);
-
-                // sleep(1000);
             },
 
             error:function(msg){
@@ -51,15 +53,5 @@ window.onscroll = function(){
         });
     } else {
         top_div.style.display = "none";
-    }
-}
-
-function sleep(milliSeconds) {
-    var startTime = new Date().getTime(); // get the current time
-
-    while (true) {
-        var curTime = new Date().getTime();
-        if (curTime - startTime >= milliSeconds)
-            break;
     }
 }

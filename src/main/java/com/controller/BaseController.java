@@ -3,17 +3,24 @@ package com.controller;
 import com.google.gson.Gson;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @Controller
 public class BaseController {
 
-//    public final String logFileName = "/home/mi/log/boss-middletiers.log.2016072106";
+    public static String staticLogFileNmae = "";
     public final String logDir = "/home/" + System.getProperty("user.name") + "/log/";
     public final int row = 500;
+
+    public static RandomAccessFile logFile = null;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index (Model model) {
@@ -49,19 +56,18 @@ public class BaseController {
      * @return
      */
 
-    @RequestMapping(value = "/viewLog/{logFileName:.+}", method = RequestMethod.GET)
-    public String viewLog (@PathVariable String logFileName,
+    @RequestMapping(value = "/viewLog", method = RequestMethod.GET)
+    public String viewLog (@RequestParam String logFileName,
                            Model model) throws IOException {
 
-        System.out.println(logFileName);
-        logFileName = logDir + logFileName;
+        staticLogFileNmae = logDir + logFileName;
+
         List<String> list = new ArrayList<>();
 
         long pos = -2;
         int curPage = 1;
 
-
-        pos = readLog(logFileName, pos, list);
+        pos = readLog(staticLogFileNmae, pos, list);
 
         if (list.size() == 0 || pos == -1) {  //没有读取到任何数据，表示已经加载过了所有内容
             model.addAttribute("isOver", true);
@@ -69,12 +75,11 @@ public class BaseController {
             model.addAttribute("isOver", false);
         }
 
-        BufferedReader reader = new BufferedReader(new FileReader(logFileName));
+        BufferedReader reader = new BufferedReader(new FileReader(staticLogFileNmae));
         String line = "";
         int totalLines = 0;
 
         while ((line = reader.readLine()) != null) {
-//            if (!line.equals(""))
             totalLines ++;
         }
 
@@ -83,7 +88,6 @@ public class BaseController {
         model.addAttribute("pos", pos);
         model.addAttribute("totalLines", totalLines);
 
-        System.out.println("hahahahah");
         return "viewLog";
     }
 
@@ -95,16 +99,14 @@ public class BaseController {
      * @return
      */
 
-    @RequestMapping(value = "/loadLog/{logFileName:.+}", method = RequestMethod.GET)
+    @RequestMapping(value = "/loadLog", method = RequestMethod.GET)
     @ResponseBody
-    public String addLog (@PathVariable String logFileName,
-                          @RequestParam(required = false, defaultValue = "1") int curPage,
+    public String addLog (@RequestParam(required = false, defaultValue = "1") int curPage,
                           @RequestParam(required = false, defaultValue = "-2") long pos,
                           Model model) {
         List<String> list = new ArrayList<>();
 
-        logFileName = logDir + logFileName;
-        pos = readLog(logFileName, pos, list);
+        pos = readLog(staticLogFileNmae, pos, list);
 
         if (list.size() == 0 || pos == -1) {  //没有读取到任何数据，表示已经加载过了所有内容
             model.addAttribute("isOver", true);
@@ -120,31 +122,26 @@ public class BaseController {
     }
 
     private long readLog( String logFileName, long pos, List<String> list) {
-        RandomAccessFile logFile = null;
 
         try {
             //以只读方式打开日志文件
-            logFile = new RandomAccessFile(logFileName, "r");
+            logFile = new RandomAccessFile(staticLogFileNmae, "r");
             //当前行号
             int curRow = 0;
-            //获取文件大小
-            long len = logFile.length();
             //读取行
             String line = null;
-            if(len > 0) {
-                //定位至文件尾部
-                if (pos == -2) pos = len;
-                while(pos-- > 0) {
-                    logFile.seek(pos);//定位指针位置
-                    if(logFile.readByte() == '\n' && curRow < row) {
-                        line = logFile.readLine();//读取到换行符，这里的换行符是上一行的换行符，所以这里永远不会打印第一行的内容
-                        if (line != null) {
-                            line = new String(line.getBytes("ISO-8859-1"), "utf-8");//如果是换行符,并且在指定行号内，就读取该行；如果是空行，这打印空行
-                            curRow++;
-                            list.add(line);
-                            if (curRow == row) { //如果已读行数达到指定行数，则不再读取
-                                break;
-                            }
+            //定位至文件尾部
+            if (pos == -2) pos = logFile.length();
+            while (pos-- > 0) {
+                logFile.seek(pos);//定位指针位置
+                if (logFile.readByte() == '\n' && curRow < row) {
+                    line = logFile.readLine();//读取到换行符，这里的换行符是上一行的换行符，所以这里永远不会打印第一行的内容
+                    if (line != null) {
+                        line = new String(line.getBytes("ISO-8859-1"), "utf-8");//如果是换行符,并且在指定行号内，就读取该行；如果是空行，这打印空行
+                        curRow++;
+                        list.add(line);
+                        if (curRow == row) { //如果已读行数达到指定行数，则不再读取
+                            break;
                         }
                     }
                 }
@@ -162,10 +159,8 @@ public class BaseController {
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-//            model.addAttribute("msg", "找不到日志文件: " + logFileName);
         } catch (IOException e) {
             e.printStackTrace();
-//            model.addAttribute("msg", "读取日志文件失败: " + logFileName);
         } finally {
             try {
                 if (logFile != null) logFile.close();

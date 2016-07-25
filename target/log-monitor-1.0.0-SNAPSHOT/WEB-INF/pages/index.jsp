@@ -6,10 +6,13 @@
 <html>
 <head>
     <title>View Log</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 </head>
 <body>
     <c:forEach var="loglist" items="${files}">
-        <div id=${loglist}> <a href="/viewLog/${loglist}">${loglist} <br></a></div>
+        <div id=${loglist}>
+            <a href="/viewLog?logFileName=${loglist}">${loglist}<br></a>
+        </div>
     </c:forEach>
 </body>
 </html>
