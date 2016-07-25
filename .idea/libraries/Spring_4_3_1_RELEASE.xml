@@ -24,6 +24,8 @@
     <JAVADOC />
     <SOURCES>
       <root url="jar://$USER_HOME$/.ideaLibSources/spring-context-4.3.1.RELEASE-sources.jar!/" />
+      <root url="jar://$USER_HOME$/.ideaLibSources/spring-core-4.3.1.RELEASE-sources.jar!/" />
+      <root url="jar://$USER_HOME$/.ideaLibSources/spring-test-4.3.1.RELEASE-sources.jar!/" />
     </SOURCES>
   </library>
 </component>

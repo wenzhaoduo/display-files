@@ -8,7 +8,8 @@ window.onscroll = function(){
     var scrollTop = document.documentElement.scrollTop || document.body.scrollTop; //滚动高度
 
 
-    if(scrollTop / contentH <= 0.1 && scrollTop / contentH > 0 && $(isOver).text() == "false") {
+    // if(scrollTop / contentH <= 0.1 && scrollTop / contentH > 0 && $(isOver).text() == "false") {
+    if(scrollTop / contentH == 0 && $(isOver).text() == "false") {
 
         var curPage = document.getElementById("curPage");
         var pos = document.getElementById("pos");
@@ -33,11 +34,15 @@ window.onscroll = function(){
                 });
 
                 var existingDiv = document.getElementById((msg.curPage - 1).toString());
-                var newDiv = $( "<div id=" + msg.curPage + "></div>" );
+                var newDiv = $( "<div id=" + msg.curPage + " class=\"msg\"></div>" );
                 $(existingDiv).before(newDiv);
                 var curDiv = document.getElementById(msg.curPage.toString());
                 
                 $(curDiv).append(str);
+
+                window.scrollTo(0,curDiv.scrollHeight);
+
+                // sleep(1000);
             },
 
             error:function(msg){
@@ -46,5 +51,15 @@ window.onscroll = function(){
         });
     } else {
         top_div.style.display = "none";
+    }
+}
+
+function sleep(milliSeconds) {
+    var startTime = new Date().getTime(); // get the current time
+
+    while (true) {
+        var curTime = new Date().getTime();
+        if (curTime - startTime >= milliSeconds)
+            break;
     }
 }

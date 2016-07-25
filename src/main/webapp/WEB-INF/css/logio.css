@@ -1,0 +1,25 @@
+*{padding:0px;margin:0px;font-family:'Source Sans Pro',Verdana,Arial,sans-serif;}
+#web_client{position:relative;}
+#log_screens{vertical-align:top;float:left;background-color:#000;}#log_screens div.log_screen{margin:10px;position:relative;}
+#log_screens div.log_screen div.messages .msg{margin:10px;color:#0c0;}#log_screens div.log_screen div.messages .msg p,#log_screens div.log_screen div.messages .msg p *{font-size:12px;line-height:16px;font-weight:400;font-family:'Inconsolata',Courier,sans-serif;}
+#log_screens div.log_screen div.messages .msg .color1{color:#1f77b4;}
+#log_screens div.log_screen div.messages .msg .color2{color:#aec7e8;}
+#log_screens div.log_screen div.messages .msg .color3{color:#ff7f0e;}
+#log_screens div.log_screen div.messages .msg .color4{color:#ffbb78;}
+#log_screens div.log_screen div.messages .msg .color5{color:#2ca02c;}
+#log_screens div.log_screen div.messages .msg .color6{color:#98df8a;}
+#log_screens div.log_screen div.messages .msg .color7{color:#d62728;}
+#log_screens div.log_screen div.messages .msg .color8{color:#ff9896;}
+#log_screens div.log_screen div.messages .msg .color9{color:#9467bd;}
+#log_screens div.log_screen div.messages .msg .color10{color:#c5b0d5;}
+#log_screens div.log_screen div.messages .msg .color11{color:#8c564b;}
+#log_screens div.log_screen div.messages .msg .color12{color:#c49c94;}
+#log_screens div.log_screen div.messages .msg .color13{color:#e377c2;}
+#log_screens div.log_screen div.messages .msg .color14{color:#f7b6d2;}
+#log_screens div.log_screen div.messages .msg .color15{color:#7f7f7f;}
+#log_screens div.log_screen div.messages .msg .color16{color:#c7c7c7;}
+#log_screens div.log_screen div.messages .msg .color17{color:#bcbd22;}
+#log_screens div.log_screen div.messages .msg .color18{color:#dbdb8d;}
+#log_screens div.log_screen div.messages .msg .color19{color:#17becf;}
+#log_screens div.log_screen div.messages .msg .color20{color:#9edae5;}
+#log_screens div.log_screen div.messages span.highlight{background-color:#0e0;color:#000;}
