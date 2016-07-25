@@ -60,7 +60,9 @@ public class BaseController {
     public String viewLog (@RequestParam String logFileName,
                            Model model) throws IOException {
 
-        staticLogFileNmae = logDir + logFileName;
+        String proDir = logFileName.split("\\.")[0];
+        staticLogFileNmae = logDir + proDir + "/" + logFileName;
+        System.out.println(staticLogFileNmae);
 
         List<String> list = new ArrayList<>();
 
